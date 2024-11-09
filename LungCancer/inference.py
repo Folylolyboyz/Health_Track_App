@@ -13,4 +13,4 @@ def onnxPredictData(data, path = "LungCancer/lungModel.onnx") -> list:
         return pred_onx.tolist()
 
 # print(onnxPredictData([[1, 69, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1]])[0])
-# [1, 55, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1]
+# [0, 60, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]
