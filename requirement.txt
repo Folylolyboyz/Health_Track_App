@@ -1,0 +1,7 @@
+fastapi
+pymongo[srv]
+onnxruntime
+numpy
+pandas
+pillow
+torchvision
