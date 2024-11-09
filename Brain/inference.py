@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 import torchvision
 
-def onnxPredictData(image, path = "Brain/brainModel.onnx") -> np.int64:
+def onnxPredictData(imagereal, path = "Brain/brainModel.onnx") -> np.int64:
     test_transform = torchvision.transforms.Compose([
         torchvision.transforms.Resize(size=(224, 224)),
         torchvision.transforms.ToTensor(),
@@ -14,7 +14,7 @@ def onnxPredictData(image, path = "Brain/brainModel.onnx") -> np.int64:
     
     all_classes = ["notumor", "glioma", "meningioma", "pituitary"]
     
-    imagereal = Image.open(image).convert("RGB")
+    # imagereal = Image.open(image).convert("RGB")
     
     image = test_transform(imagereal)
     image = image.unsqueeze(0)

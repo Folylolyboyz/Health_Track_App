@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 import torchvision
 
-def onnxPredictData(image, all_classes, path = "Tuberculosis/tuberculosisModel.onnx") -> np.int64:
+def onnxPredictData(imagereal, all_classes, path = "Tuberculosis/tuberculosisModel.onnx") -> np.int64:
     test_transform = torchvision.transforms.Compose([
         torchvision.transforms.Resize(size=(224, 224)),
         torchvision.transforms.ToTensor(),
@@ -12,7 +12,7 @@ def onnxPredictData(image, all_classes, path = "Tuberculosis/tuberculosisModel.o
     
     
     
-    imagereal = Image.open(image).convert("RGB")
+    # imagereal = Image.open(image).convert("RGB")
     
     image = test_transform(imagereal)
     image = image.unsqueeze(0)
