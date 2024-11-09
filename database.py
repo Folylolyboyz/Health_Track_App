@@ -1,22 +1,8 @@
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-import pymongo.synchronous.collection as mongoDatatypes
+from databaseConnection import client
 import requests
+import pymongo.synchronous.collection as mongoDatatypes
 
-uri = "mongodb+srv://HealthTrackApp:HealthTrackApp@cluster0.ndcvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-
-# Send a ping to confirm a successful connection
-# try:
-#     client.admin.command('ping')
-#     print("Pinged your deployment. You successfully connected to MongoDB!")
-# except Exception as e:
-#     print(e)
-
-db = client["HealthTrackAppDatabase"]
-cl = db["HealthTrackAppCollection"]
+cl = client()
 
 columns = ["_id", 
            "name", 
