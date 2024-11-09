@@ -34,4 +34,4 @@ def onnxPredictData(image, path = "Covid19/ViralOrCovid.onnx") -> np.int64:
     # print(type(predicted_class))
     return class_names[predicted_class]
 
-print(onnxPredictData("Covid19/Dataset/test/covid/COVID-251.png"))
+# print(onnxPredictData("Covid19/Dataset/test/covid/COVID-251.png"))

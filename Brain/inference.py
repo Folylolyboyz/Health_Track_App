@@ -34,4 +34,4 @@ def onnxPredictData(image, path = "Brain/brainModel.onnx") -> np.int64:
     # print(type(predicted_class))
     return all_classes[predicted_class]
 
-print(onnxPredictData("Brain/Dataset/Testing/notumor/Te-noTr_0001.jpg"))
+# print(onnxPredictData("Brain/Dataset/Testing/notumor/Te-noTr_0001.jpg"))

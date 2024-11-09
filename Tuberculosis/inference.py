@@ -32,4 +32,4 @@ def onnxPredictData(image, all_classes, path = "Tuberculosis/tuberculosisModel.o
     # print(type(predicted_class))
     return all_classes[predicted_class]
 
-print(onnxPredictData("Covid19/Dataset/covid//images/COVID-1.png", ["normal", "tuberculosis"]))
+# print(onnxPredictData("Covid19/Dataset/covid//images/COVID-1.png", ["normal", "tuberculosis"]))

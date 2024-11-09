@@ -12,5 +12,5 @@ def onnxPredictData(data, path = "LungCancer/lungModel.onnx") -> list:
         pred_onx = sess.run(None , {input_name: data.values.astype(np.float32)})[0]
         return pred_onx.tolist()
 
-print(onnxPredictData([[1, 69, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1]])[0])
+# print(onnxPredictData([[1, 69, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1]])[0])
 # [1, 55, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1]

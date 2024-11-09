@@ -12,4 +12,4 @@ def onnxPredictData(data, path = "HeartFailure/heartfailureModel.onnx") -> list:
         pred_onx = sess.run(None , {input_name: data.values.astype(np.float32)})[0]
         return pred_onx.tolist()
 
-print(onnxPredictData([[52.0, 1.0, 2.0, 0.0, 0.0, 180.0, 0.0, 3.0, 2.0]])[0])
+# print(onnxPredictData([[52.0, 1.0, 2.0, 0.0, 0.0, 180.0, 0.0, 3.0, 2.0]])[0])
