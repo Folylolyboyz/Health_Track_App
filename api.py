@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import asyncio
@@ -172,7 +172,7 @@ def lungPred(data : Lung):
     ans = lung([l])[0]
     del data, userid, userdata, alldata, intclasses, l, classes, i
     if ans:
-        return {"lung" : "Yes"}
+        return {"lung" : ans}
     else:
         return {"lung" : "No"}
 
@@ -229,7 +229,7 @@ def basic(data : Basic):
         try:
             data[i] = int(data[i])
         except:
-            return {"error" : 400}
+            return Response(status_code=204)
     db.insertUser(data)
     del data
     # time.sleep(5)
@@ -255,7 +255,7 @@ def health(data : Health):
         try:
             data[i] = int(data[i])
         except:
-            return {"error" : 400}
+            return Response(status_code=204)
     db.insertUser(data)
     del data
     return {"response" : 200}
@@ -263,13 +263,19 @@ def health(data : Health):
 @app.post("/getuserdata/{userid}")
 def sendUserData(userid : str):
     tosend = db.getUserData(userid)
-    tosend.pop("_id")
-    # return {"data" : tosend}
-    return tosend
+    if tosend:
+        tosend.pop("_id")
+        # return {"data" : tosend}
+        return tosend
+    else:
+        Response(status_code=204)
 
 @app.get("/getuserdata/{userid}")
 def sendUserData(userid : str):
     tosend = db.getUserData(userid)
-    tosend.pop("_id")
-    # return {"data" : tosend}
-    return tosend
+    if tosend:
+        tosend.pop("_id")
+        # return {"data" : tosend}
+        return tosend
+    else:
+        Response(status_code=204)
