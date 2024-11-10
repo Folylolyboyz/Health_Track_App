@@ -1,5 +1,7 @@
 fastapi
 fastapi_utilities
+httpx
+asyncio
 pymongo[srv]
 onnxruntime
 numpy
