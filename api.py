@@ -21,9 +21,10 @@ origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    # allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 @app.get("/")
@@ -215,6 +216,12 @@ async def health(data : Health):
     return {"response" : 200}
 
 @app.post("/getuserdata/{userid}")
+async def sendUserData(userid : str):
+    tosend = db.getUserData(userid)
+    tosend.pop("_id")
+    return {"data" : tosend}
+
+@app.get("/getuserdata/{userid}")
 async def sendUserData(userid : str):
     tosend = db.getUserData(userid)
     tosend.pop("_id")
