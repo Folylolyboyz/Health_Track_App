@@ -88,7 +88,9 @@ def diabetesPred(data : Diabetes):
     for i in classes:
         l.append(alldata[i])
     
-    if diabetes([l])[0]:
+    ans = diabetes([l])[0]
+    del data, userid, userdata, alldata, floatclasses, l, classes, i
+    if ans:
         return {"diabetes" : "Yes"}
     else:
         return {"diabetes" : "No"}
@@ -125,7 +127,9 @@ def heartfailurePred(data : HeartFailure):
     for i in classes:
         l.append(alldata[i])
     
-    if heart([l])[0]:
+    ans = heart([l])[0]
+    del data, userid, userdata, alldata, intclasses, l, classes, i
+    if ans:
         return {"heart" : "Yes"}
     else:
         return {"heart" : "No"}
@@ -164,7 +168,10 @@ def lungPred(data : Lung):
     for i in classes:
         l.append(alldata[i])
     
-    if lung([l])[0]:
+    
+    ans = lung([l])[0]
+    del data, userid, userdata, alldata, intclasses, l, classes, i
+    if ans:
         return {"lung" : "Yes"}
     else:
         return {"lung" : "No"}
@@ -176,19 +183,25 @@ class ImageInput(BaseModel):
 def covidPred(data : ImageInput):
     data = data.model_dump()
     data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
-    return {"covid" : covid(data)}
+    ans = covid(data)
+    del data
+    return {"covid" : ans}
 
 @app.post("/model/tuberculosis")
 def tuberPred(data : ImageInput):
     data = data.model_dump()
     data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
-    return {"tuberculosis" : tuber(data)}
+    ans = tuber(data)
+    del data
+    return {"tuberculosis" : ans}
 
 @app.post("/model/brain")
 def brainPred(data : ImageInput):
     data = data.model_dump()
     data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
-    return {"brain" : brain(data)}
+    ans = brain(data)
+    del data
+    return {"brain" : ans}
 
 class Basic(BaseModel):
     userid : str
@@ -209,6 +222,7 @@ def basic(data : Basic):
         except:
             return {"error" : 400}
     db.insertUser(data)
+    del data
     # time.sleep(5)
     # print(db.getUserData(data["userid"])[0])
     # tosend = db.getUserData(data["userid"])[0]
@@ -234,7 +248,7 @@ def health(data : Health):
         except:
             return {"error" : 400}
     db.insertUser(data)
-    
+    del data
     return {"response" : 200}
 
 @app.post("/getuserdata/{userid}")
