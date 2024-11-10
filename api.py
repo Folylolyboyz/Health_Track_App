@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import asyncio
@@ -229,7 +229,7 @@ def basic(data : Basic):
         try:
             data[i] = int(data[i])
         except:
-            return Response(status_code=204)
+            raise HTTPException(status_code=204)
     db.insertUser(data)
     del data
     # time.sleep(5)
@@ -255,7 +255,7 @@ def health(data : Health):
         try:
             data[i] = int(data[i])
         except:
-            return Response(status_code=204)
+            raise HTTPException(status_code=204)
     db.insertUser(data)
     del data
     return {"response" : 200}
@@ -268,7 +268,7 @@ def sendUserData(userid : str):
         # return {"data" : tosend}
         return tosend
     else:
-        Response(status_code=204)
+        raise HTTPException(status_code=204)
 
 @app.get("/getuserdata/{userid}")
 def sendUserData(userid : str):
@@ -278,4 +278,4 @@ def sendUserData(userid : str):
         # return {"data" : tosend}
         return tosend
     else:
-        Response(status_code=204)
+        raise HTTPException(status_code=204)
