@@ -44,7 +44,10 @@ def userExists(userid: int) -> bool:
 
 def getUserData(userid: int):
     data = list(cl.find({"userid" : userid}))
-    return data[0]
+    if data:
+        return data[0]
+    else:
+        return None
 
 # data = getData("https://run.mocky.io/v3/c3796c22-2916-4bc6-a57a-a62caf18fd2f")
 # updateUser(cl, data)
