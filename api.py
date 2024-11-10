@@ -31,10 +31,10 @@ async def cyclic_func():
         try:
             async with httpx.AsyncClient() as client:
                 await client.get(os.environ["siteurl"])
-                await asyncio.sleep(30)  # 15 minutes
+                await asyncio.sleep(300)  # Every 5 minutes
         except Exception as e:
             print(f"Error in cyclic_func: {e}")
-            await asyncio.sleep(30)  # wait a minute before retrying
+            await asyncio.sleep(60)  # Wait for 1 minute
 
 app = FastAPI(lifespan=lifespan)
 
