@@ -11,6 +11,7 @@ def onnxPredictData(imagereal, path = "Tuberculosis/tuberculosisModel.onnx") -> 
         ])
     
     
+    
     all_classes = ["normal", "tuberculosis"]
     # imagereal = Image.open(image).convert("RGB")
     
@@ -21,6 +22,7 @@ def onnxPredictData(imagereal, path = "Tuberculosis/tuberculosisModel.onnx") -> 
     sess = rt.InferenceSession(path, providers=["CPUExecutionProvider"])
     input_name = sess.get_inputs()[0].name #input_names=['input']
     
+    del imagereal, image, test_transform
     pred_onx = sess.run(None , {input_name : input_data})[0]
     
     # print(input_name)
@@ -30,6 +32,7 @@ def onnxPredictData(imagereal, path = "Tuberculosis/tuberculosisModel.onnx") -> 
     predicted_class = np.argmax(pred_onx, axis=1)[0] # Finds the index of the highest item in the list or numpy array
     # print(predicted_class)
     # print(type(predicted_class))
+    del sess
     return all_classes[predicted_class]
 
 # print(onnxPredictData("Covid19/Dataset/covid//images/COVID-1.png"))
