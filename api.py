@@ -13,13 +13,12 @@ from io import BytesIO
 import database as db
 from Brain.inference import onnxPredictData as brain
 from Covid19.inference import onnxPredictData as covid
-from Diabetes.inference import onnxPredictData as diabetes #['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level', 'blood_glucose_level']
+from Diabetes.inference import onnxPredictData as diabetes
 from HeartFailure.inference import onnxPredictData as heart
 from LungCancer.inference import onnxPredictData as lung
 from Tuberculosis.inference import onnxPredictData as tuber
 
-# app = FastAPI()
-
+# Health Check
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     task = asyncio.create_task(cyclic_func())
@@ -36,6 +35,9 @@ async def cyclic_func():
             print(f"Error in cyclic_func: {e}")
             await asyncio.sleep(60)  # Wait for 1 minute
 
+
+
+
 app = FastAPI(lifespan=lifespan)
 
 origins = ["*"]
@@ -49,9 +51,15 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
+
+
+
 @app.get("/")
 def homepage():
     return {"response" : "Hello World"}
+
+
+
 
 class Diabetes(BaseModel):
     userid : str
@@ -82,7 +90,6 @@ def diabetesPred(data : Diabetes):
         except:
             return {"error" : 400}
     
-    
     l = []
     classes = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking', 'bmi', 'HbA1c_level', 'blood_glucose_level']
     for i in classes:
@@ -94,6 +101,9 @@ def diabetesPred(data : Diabetes):
         return {"diabetes" : "Yes"}
     else:
         return {"diabetes" : "No"}
+
+
+
 
 class HeartFailure(BaseModel):
     userid : str
@@ -133,6 +143,9 @@ def heartfailurePred(data : HeartFailure):
         return {"heart" : "Yes"}
     else:
         return {"heart" : "No"}
+
+
+
 
 class Lung(BaseModel):
     userid : str
@@ -176,6 +189,9 @@ def lungPred(data : Lung):
     else:
         return {"lung" : "No"}
 
+
+
+
 class ImageInput(BaseModel):
     img : str
 
@@ -188,6 +204,7 @@ def covidPred(data : ImageInput):
     del data
     return {"covid" : ans1, "tuber" : ans2}
 
+
 @app.post("/model/covid")
 def covidPred(data : ImageInput):
     data = data.model_dump()
@@ -195,6 +212,7 @@ def covidPred(data : ImageInput):
     ans = covid(data)
     del data
     return {"covid" : ans}
+
 
 @app.post("/model/tuberculosis")
 def tuberPred(data : ImageInput):
@@ -204,6 +222,7 @@ def tuberPred(data : ImageInput):
     del data
     return {"tuberculosis" : ans}
 
+
 @app.post("/model/brain")
 def brainPred(data : ImageInput):
     data = data.model_dump()
@@ -212,6 +231,9 @@ def brainPred(data : ImageInput):
     del data
     return {"brain" : ans}
 
+
+
+
 class Basic(BaseModel):
     userid : str
     name : str
@@ -219,12 +241,16 @@ class Basic(BaseModel):
     age : str #int
     height : str #int
     weight : str #int
+    bloodpressure : str
+    allergy : str #int
+    smoking : str #int
+    alcohol : str #int
 
 @app.post("/basic")
 def basic(data : Basic):
     data = data.model_dump()
     # print(data)
-    intclasses = ["gender", "age", "height", "weight"]
+    intclasses = ["gender", "age", "height", "weight", "allergy", "smoking", "alcohol"]
     for i in intclasses:
         try:
             data[i] = int(data[i])
@@ -239,26 +265,8 @@ def basic(data : Basic):
     # print(tosend)
     return {"response" : 200}
 
-class Health(BaseModel):
-    userid : str
-    bloodpressure : str
-    allergy : str #int
-    smoking : str #int
-    alcohol : str #int
 
-@app.post("/health")
-def health(data : Health):
-    data = data.model_dump()
-    
-    intclasses = ["allergy", "smoking", "alcohol"]
-    for i in intclasses:
-        try:
-            data[i] = int(data[i])
-        except:
-            raise HTTPException(status_code=204)
-    db.insertUser(data)
-    del data
-    return {"response" : 200}
+
 
 @app.post("/getuserdata/{userid}")
 def sendUserData(userid : str):
@@ -269,6 +277,9 @@ def sendUserData(userid : str):
         return tosend
     else:
         raise HTTPException(status_code=204)
+
+
+
 
 @app.get("/getuserdata/{userid}")
 def sendUserData(userid : str):
