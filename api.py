@@ -1,7 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi_utilities import repeat_every
+import asyncio
+import httpx
+from contextlib import asynccontextmanager
+import os
 
 import base64
 from PIL import Image
@@ -15,7 +18,25 @@ from HeartFailure.inference import onnxPredictData as heart
 from LungCancer.inference import onnxPredictData as lung
 from Tuberculosis.inference import onnxPredictData as tuber
 
-app = FastAPI()
+# app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    task = asyncio.create_task(cyclic_func())
+    yield
+    task.cancel()
+
+async def cyclic_func():
+    while True:
+        try:
+            async with httpx.AsyncClient() as client:
+                await client.get(os.environ["siteurl"])
+                await asyncio.sleep(30)  # 15 minutes
+        except Exception as e:
+            print(f"Error in cyclic_func: {e}")
+            await asyncio.sleep(30)  # wait a minute before retrying
+
+app = FastAPI(lifespan=lifespan)
 
 origins = ["*"]
 
@@ -29,9 +50,8 @@ app.add_middleware(
 )
 
 @app.get("/")
-@repeat_every(seconds = 60)
-async def homepage():
-    return {"return" : "Hello World"}
+def homepage():
+    return {"response" : "Hello World"}
 
 class Diabetes(BaseModel):
     userid : str
