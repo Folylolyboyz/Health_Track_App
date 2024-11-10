@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_utilities import repeat_every
 
 import base64
 from PIL import Image
@@ -28,7 +29,8 @@ app.add_middleware(
 )
 
 @app.get("/")
-def homepage():
+@repeat_every(seconds = 60)
+async def homepage():
     return {"return" : "Hello World"}
 
 class Diabetes(BaseModel):
