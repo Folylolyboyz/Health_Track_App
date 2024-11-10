@@ -255,10 +255,12 @@ def health(data : Health):
 def sendUserData(userid : str):
     tosend = db.getUserData(userid)
     tosend.pop("_id")
-    return {"data" : tosend}
+    # return {"data" : tosend}
+    return tosend
 
 @app.get("/getuserdata/{userid}")
 def sendUserData(userid : str):
     tosend = db.getUserData(userid)
     tosend.pop("_id")
-    return {"data" : tosend}
+    # return {"data" : tosend}
+    return tosend
