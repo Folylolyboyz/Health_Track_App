@@ -179,6 +179,15 @@ def lungPred(data : Lung):
 class ImageInput(BaseModel):
     img : str
 
+@app.post("/model/lungimage")
+def covidPred(data : ImageInput):
+    data = data.model_dump()
+    data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
+    ans1 = covid(data)
+    ans2 = tuber(data)
+    del data
+    return {"covid" : ans1, "tuber" : ans2}
+
 @app.post("/model/covid")
 def covidPred(data : ImageInput):
     data = data.model_dump()
