@@ -38,7 +38,7 @@ class Diabetes(BaseModel):
     blood_glucose_level : str #int
 
 @app.post("/model/diabetes")
-async def diabetesPred(data : Diabetes):
+def diabetesPred(data : Diabetes):
     # data = db.getData("https://run.mocky.io/v3/b3ce155c-ba3d-4f28-a960-4a276d184efa")
     data = data.model_dump()
     userid = data.pop("userid")
@@ -82,7 +82,7 @@ class HeartFailure(BaseModel):
     st_slope : str #int
 
 @app.post("/model/heartfailure")
-async def heartfailurePred(data : HeartFailure):
+def heartfailurePred(data : HeartFailure):
     # data = db.getData("https://run.mocky.io/v3/e94526be-b588-4b77-955a-783a6103478e")
     data = data.model_dump()
     userid = data.pop("userid")
@@ -121,7 +121,7 @@ class Lung(BaseModel):
     chest_pain : str #int
 
 @app.post("/model/lung")
-async def lungPred(data : Lung):
+def lungPred(data : Lung):
     # data = db.getData("https://run.mocky.io/v3/e39f87ae-f779-4651-8275-f3e2905b1719")
     data = data.model_dump()
     userid = data.pop("userid")
@@ -151,19 +151,19 @@ class ImageInput(BaseModel):
     img : str
 
 @app.post("/model/covid")
-async def covidPred(data : ImageInput):
+def covidPred(data : ImageInput):
     data = data.model_dump()
     data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
     return {"covid" : covid(data)}
 
 @app.post("/model/tuberculosis")
-async def tuberPred(data : ImageInput):
+def tuberPred(data : ImageInput):
     data = data.model_dump()
     data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
     return {"tuberculosis" : tuber(data)}
 
 @app.post("/model/brain")
-async def brainPred(data : ImageInput):
+def brainPred(data : ImageInput):
     data = data.model_dump()
     data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
     return {"brain" : brain(data)}
@@ -177,7 +177,7 @@ class Basic(BaseModel):
     weight : str #int
 
 @app.post("/basic")
-async def basic(data : Basic):
+def basic(data : Basic):
     data = data.model_dump()
     # print(data)
     intclasses = ["gender", "age", "height", "weight"]
@@ -202,7 +202,7 @@ class Health(BaseModel):
     alcohol : str #int
 
 @app.post("/health")
-async def health(data : Health):
+def health(data : Health):
     data = data.model_dump()
     
     intclasses = ["allergy", "smoking", "alcohol"]
@@ -216,13 +216,13 @@ async def health(data : Health):
     return {"response" : 200}
 
 @app.post("/getuserdata/{userid}")
-async def sendUserData(userid : str):
+def sendUserData(userid : str):
     tosend = db.getUserData(userid)
     tosend.pop("_id")
     return {"data" : tosend}
 
 @app.get("/getuserdata/{userid}")
-async def sendUserData(userid : str):
+def sendUserData(userid : str):
     tosend = db.getUserData(userid)
     tosend.pop("_id")
     return {"data" : tosend}
