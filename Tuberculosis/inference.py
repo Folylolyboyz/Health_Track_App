@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 import torchvision
 
-def onnxPredictData(imagereal, all_classes, path = "Tuberculosis/tuberculosisModel.onnx") -> np.int64:
+def onnxPredictData(imagereal, path = "Tuberculosis/tuberculosisModel.onnx") -> np.int64:
     test_transform = torchvision.transforms.Compose([
         torchvision.transforms.Resize(size=(224, 224)),
         torchvision.transforms.ToTensor(),
@@ -11,7 +11,7 @@ def onnxPredictData(imagereal, all_classes, path = "Tuberculosis/tuberculosisMod
         ])
     
     
-    
+    all_classes = ["normal", "tuberculosis"]
     # imagereal = Image.open(image).convert("RGB")
     
     image = test_transform(imagereal)
@@ -32,4 +32,4 @@ def onnxPredictData(imagereal, all_classes, path = "Tuberculosis/tuberculosisMod
     # print(type(predicted_class))
     return all_classes[predicted_class]
 
-# print(onnxPredictData("Covid19/Dataset/covid//images/COVID-1.png", ["normal", "tuberculosis"]))
+# print(onnxPredictData("Covid19/Dataset/covid//images/COVID-1.png"))
