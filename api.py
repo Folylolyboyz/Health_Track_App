@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 import base64
 from PIL import Image
@@ -14,6 +15,20 @@ from LungCancer.inference import onnxPredictData as lung
 from Tuberculosis.inference import onnxPredictData as tuber
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/")
+def homepage():
+    return {"return" : "Hello World"}
 
 class Diabetes(BaseModel):
     userid : str
