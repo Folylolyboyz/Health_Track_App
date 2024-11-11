@@ -1,5 +1,4 @@
 fastapi
-fastapi_utilities
 httpx
 asyncio
 pymongo[srv]
@@ -7,6 +6,5 @@ onnxruntime
 numpy
 pandas
 pillow
-torchvision
 uvicorn
 requests
