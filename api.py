@@ -17,6 +17,7 @@ from Diabetes.inference import onnxPredictData as diabetes
 from HeartFailure.inference import onnxPredictData as heart
 from LungCancer.inference import onnxPredictData as lung
 from Tuberculosis.inference import onnxPredictData as tuber
+from Handwriting.inference import InferenceModel
 
 # Health Check
 @asynccontextmanager
@@ -230,6 +231,16 @@ def brainPred(data : ImageInput):
     ans = brain(data)
     del data
     return {"brain" : ans}
+
+
+@app.post("/model/handwriting")
+def handwritingPred(data : ImageInput):
+    data = data.model_dump()
+    data = Image.open(BytesIO(base64.b64decode(data["img"]))).convert("RGB")
+    model = InferenceModel()
+    ans = model.predict(data)
+    del data, model
+    return {"handwriting" : ans}
 
 
 
