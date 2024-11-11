@@ -1,8 +1,10 @@
 import onnxruntime as rt
 import numpy as np
-from PIL import Image
 from itertools import groupby
 from spellchecker import SpellChecker
+
+# For testing
+from PIL import Image
 
 class InferenceModel:
     def __init__(self, path = "Handwriting/handwritingModel.onnx"):
@@ -53,16 +55,15 @@ class InferenceModel:
     
 # Uncomment to test
 
-model = InferenceModel()
-
 # Word
+# model = InferenceModel()
 # img = Image.open("Handwriting/Dataset/b01-000-00-05.png").convert("RGB")
 # print(model.predict(img))
 
 # Whole directory
-import os
-for i in os.listdir("Handwriting/Dataset/"):
-    model = InferenceModel()
-    print(f"Handwriting/Dataset/{i}")
-    img = Image.open(f"Handwriting/Dataset/{i}").convert("RGB")
-    print(model.predict(img))
+# import os
+# for i in os.listdir("Handwriting/Dataset/"):
+#     model = InferenceModel()
+#     print(f"Handwriting/Dataset/{i}")
+#     img = Image.open(f"Handwriting/Dataset/{i}").convert("RGB")
+#     print(model.predict(img))
