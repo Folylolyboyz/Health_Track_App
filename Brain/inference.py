@@ -1,7 +1,6 @@
 import onnxruntime as rt
 import numpy as np
 from PIL import Image
-import torchvision
 import random
 
 class CustomTransform:
