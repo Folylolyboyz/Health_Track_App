@@ -186,7 +186,7 @@ def lungPred(data : Lung):
     ans = lung([l])[0]
     del data, userid, userdata, alldata, intclasses, l, classes, i
     if ans:
-        return {"lung" : ans}
+        return {"lung" : "Yes"}
     else:
         return {"lung" : "No"}
 
