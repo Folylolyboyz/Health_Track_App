@@ -43,7 +43,7 @@ def onnxPredictData(imagereal, path = "Brain/brainModel.onnx") -> np.int64:
     # imagereal = Image.open(image).convert("RGB")
     
     image = test_transform(imagereal)
-    image = image.unsqueeze(0)
+    image = image[0]
     input_data = image.numpy()
     
     sess = rt.InferenceSession(path, providers=["CPUExecutionProvider"])
