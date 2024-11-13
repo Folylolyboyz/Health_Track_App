@@ -178,7 +178,7 @@ def lungPred(data : Lung):
     
     
     l = []
-    classes = ["gender", "age", "smoking", "yellow_fingers", "anxiety", "chronic_disease", "fatigue", "allergy", "wheezing", "alcohol", "coughing", "shortness_of_breath", "swallowing_difficulty", "chest_pain"]
+    classes = ["gender", "smoking", "yellow_fingers", "anxiety", "chronic_disease", "fatigue", "allergy", "wheezing", "alcohol", "coughing", "shortness_of_breath", "swallowing_difficulty", "chest_pain"]
     for i in classes:
         l.append(alldata[i])
     
