@@ -29,6 +29,7 @@ def updateUser(data:dict):
     if not userExists(data["userid"]):
         print("User does not exists. Try inserting.")
         return
+    data["bmi"] = data["weight"] // ((data["height"]/100)**2)
     cl.update_one({"userid" : data["userid"]}, {"$set" : data})
     print("User updated")
 
